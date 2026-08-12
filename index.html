@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>For Mithila — from Himel</title>
+<meta name="description" content="A letter written under the moon, for Mithila." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&family=Mrs+Saint+Delafield&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   PALETTE — a monsoon night: indigo sky, moon-cream, alta red
+   ============================================================ */
+:root{
+  --night:      #080C22;
+  --night-2:    #131C42;
+  --moon:       #F4EDE0;
+  --alta:       #C0344B;
+  --marigold:   #E3A75C;
+  --mist:       #8592C0;
+
+  --prose:      rgba(244,237,224,.76);
+  --hairline:   rgba(244,237,224,.14);
+
+  --display:    'Italiana', 'Times New Roman', serif;
+  --body:       'EB Garamond', Georgia, serif;
+  --util:       'Jost', system-ui, sans-serif;
+  --hand:       'Mrs Saint Delafield', cursive;
+  --bangla:     'Tiro Bangla', 'Noto Serif Bengali', serif;
+
+  --gut: clamp(20px, 5vw, 64px);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  background:var(--night);
+  color:var(--moon);
+  font-family:var(--body);
+  font-size:clamp(16px,1.05vw,18px);
+  line-height:1.75;
+  overflow-x:hidden;
+}
+body.is-locked{ overflow:hidden; height:100vh; }
+
+img{ max-width:100%; display:block; }
+a{ color:inherit; }
+::selection{ background:var(--alta); color:var(--moon); }
+
+:focus-visible{
+  outline:2px solid var(--marigold);
+  outline-offset:4px;
+  border-radius:2px;
+}
+
+/* ============================================================
+   THE SKY — fixed backdrop behind everything
+   ============================================================ */
+.sky{
+  position:fixed; inset:0; z-index:0;
+  background:
+    radial-gradient(120% 80% at 78% -8%, #24316b 0%, rgba(36,49,107,0) 55%),
+    radial-gradient(100% 70% at 10% 105%, #1a1338 0%, rgba(26,19,56,0) 60%),
+    linear-gradient(180deg, #0d1433 0%, #080C22 45%, #05070f 100%);
+}
+#stars{ position:fixed; inset:0; z-index:1; pointer-events:none; }
+
+.moon{
+  position:fixed; z-index:1;
+  top:8vh; right:9vw;
+  width:clamp(90px,13vw,190px); aspect-ratio:1;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 34% 30%, #FFFCF4 0%, #F0E7D3 46%, #CFC2A6 100%);
+  box-shadow:
+    0 0 60px rgba(244,237,224,.30),
+    0 0 160px rgba(196,209,255,.20),
+    0 0 300px rgba(120,150,255,.12);
+  animation:drift 26s ease-in-out infinite alternate;
+}
+.moon::after{
+  content:""; position:absolute; inset:0; border-radius:50%;
+  background:
+    radial-gradient(circle at 62% 40%, rgba(120,110,90,.16) 0 6%, transparent 7%),
+    radial-gradient(circle at 40% 66%, rgba(120,110,90,.14) 0 9%, transparent 10%),
+    radial-gradient(circle at 70% 72%, rgba(120,110,90,.10) 0 5%, transparent 6%);
+}
+@keyframes drift{ from{ transform:translateY(0) } to{ transform:translateY(26px) } }
+
+/* grain: keeps the gradients from looking like plastic */
+.grain{
+  position:fixed; inset:-50%; z-index:2; pointer-events:none; opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   THE GATE — the click that lets the music in
+   ============================================================ */
+.gate{
+  position:fixed; inset:0; z-index:100;
+  display:grid; place-items:center; text-align:center;
+  padding:var(--gut);
+  background:linear-gradient(180deg,#0a1030 0%, #05070f 100%);
+  transition:opacity 1.1s ease, visibility 1.1s;
+}
+.gate.is-open{ opacity:0; visibility:hidden; }
+
+.gate__crescent{
+  width:74px; height:74px; margin:0 auto 34px;
+  border-radius:50%;
+  box-shadow:16px 12px 0 0 var(--moon);
+  filter:drop-shadow(0 0 22px rgba(244,237,224,.45));
+  transform:rotate(-18deg);
+}
+.gate__eyebrow{
+  font-family:var(--util); font-weight:300;
+  font-size:.72rem; letter-spacing:.44em; text-transform:uppercase;
+  color:var(--mist); margin:0 0 22px;
+}
+.gate__names{
+  font-family:var(--display);
+  font-size:clamp(2.6rem,9vw,5.4rem);
+  line-height:1; letter-spacing:.04em; margin:0;
+}
+.gate__amp{ color:var(--alta); display:inline-block; padding:0 .18em; }
+.gate__bn{
+  font-family:var(--bangla); color:var(--mist);
+  font-size:clamp(.95rem,2.4vw,1.15rem); letter-spacing:.06em;
+  margin:14px 0 34px;
+}
+.gate__btn{
+  font-family:var(--util); font-weight:400;
+  font-size:.78rem; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--moon); background:transparent;
+  border:1px solid var(--hairline); border-radius:100px;
+  padding:17px 40px; cursor:pointer;
+  transition:border-color .4s, background .4s, letter-spacing .4s;
+}
+.gate__btn:hover{ border-color:var(--marigold); background:rgba(227,167,92,.09); letter-spacing:.36em; }
+.gate__note{
+  font-family:var(--util); font-weight:300; font-size:.68rem;
+  letter-spacing:.14em; color:rgba(133,146,192,.7); margin:20px 0 0;
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+main{ position:relative; z-index:3; }
+.wrap{ width:min(1080px, 100% - (var(--gut) * 2)); margin-inline:auto; }
+section{ padding-block:clamp(88px,14vh,170px); }
+
+.eyebrow{
+  font-family:var(--util); font-weight:300;
+  font-size:.68rem; letter-spacing:.4em; text-transform:uppercase;
+  color:var(--mist); margin:0 0 20px;
+  display:flex; align-items:center; gap:16px;
+}
+.eyebrow::after{ content:""; flex:1; height:1px; background:var(--hairline); }
+
+h2{
+  font-family:var(--display); font-weight:400;
+  font-size:clamp(2rem,5.4vw,3.5rem);
+  line-height:1.12; letter-spacing:.02em;
+  margin:0 0 26px;
+}
+.lede{ max-width:52ch; color:var(--prose); margin:0; }
+
+/* reveal on scroll */
+.rise{ opacity:0; transform:translateY(26px); transition:opacity 1s ease, transform 1s cubic-bezier(.2,.7,.3,1); }
+.rise.is-in{ opacity:1; transform:none; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  min-height:100svh; display:flex; flex-direction:column; justify-content:center;
+  padding-block:clamp(90px,12vh,140px);
+}
+.hero__eyebrow{
+  font-family:var(--util); font-weight:300; font-size:.7rem;
+  letter-spacing:.44em; text-transform:uppercase; color:var(--mist);
+  margin:0 0 26px;
+}
+.hero__name{
+  font-family:var(--display); font-weight:400;
+  font-size:clamp(3.4rem,15vw,10.5rem);
+  line-height:.92; letter-spacing:.03em; margin:0;
+}
+.hero__name em{
+  display:block; font-style:normal; color:var(--marigold);
+  font-size:.38em; letter-spacing:.22em; margin-top:.5em;
+}
+.hero__rule{ width:88px; height:1px; background:var(--alta); margin:38px 0 26px; }
+.hero__line{ max-width:44ch; color:var(--prose); font-size:1.12em; margin:0; }
+.hero__line i{ font-family:var(--bangla); font-style:normal; color:var(--moon); }
+
+.scrollcue{
+  margin-top:clamp(44px,8vh,88px);
+  font-family:var(--util); font-weight:300; font-size:.66rem;
+  letter-spacing:.32em; text-transform:uppercase; color:var(--mist);
+  display:flex; align-items:center; gap:14px;
+}
+.scrollcue span{ width:1px; height:44px; background:linear-gradient(var(--mist), transparent); animation:cue 2.6s ease-in-out infinite; transform-origin:top; }
+@keyframes cue{ 0%,100%{ transform:scaleY(.4); opacity:.4 } 50%{ transform:scaleY(1); opacity:1 } }
+
+/* ============================================================
+   THE COUNT
+   ============================================================ */
+.count{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(10px,3vw,34px); margin-top:44px; }
+.count__cell{ border-top:1px solid var(--hairline); padding-top:18px; }
+.count__num{
+  font-family:var(--display); font-size:clamp(2rem,6.5vw,4.2rem);
+  line-height:1; letter-spacing:.01em; font-variant-numeric:tabular-nums;
+}
+.count__lab{
+  font-family:var(--util); font-weight:300; font-size:.62rem;
+  letter-spacing:.28em; text-transform:uppercase; color:var(--mist); margin-top:10px;
+}
+
+/* ============================================================
+   SIGNATURE — the constellation of reasons
+   ============================================================ */
+.map{
+  position:relative; margin-top:52px;
+  aspect-ratio:16/7; min-height:250px;
+}
+.map__lines{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+.map__path{
+  fill:none; stroke:rgba(244,237,224,.32); stroke-width:1;
+  vector-effect:non-scaling-stroke;
+  stroke-dasharray:1000; stroke-dashoffset:1000;
+  transition:stroke-dashoffset 3.4s ease 0.3s;
+}
+.map.is-in .map__path{ stroke-dashoffset:0; }
+
+.star{
+  position:absolute; transform:translate(-50%,-50%);
+  width:46px; height:46px; padding:0; border:0; cursor:pointer;
+  background:transparent; display:grid; place-items:center;
+  border-radius:50%;
+}
+.star::before{
+  content:""; width:9px; height:9px; border-radius:50%;
+  background:var(--moon);
+  box-shadow:0 0 12px rgba(244,237,224,.8);
+  transition:transform .45s cubic-bezier(.2,.8,.3,1), background .45s, box-shadow .45s;
+}
+.star:hover::before{ transform:scale(1.5); }
+.star.is-active::before{
+  background:var(--marigold); transform:scale(2);
+  box-shadow:0 0 26px rgba(227,167,92,.95), 0 0 60px rgba(227,167,92,.4);
+}
+
+.reason{
+  margin-top:30px; min-height:132px;
+  border-top:1px solid var(--hairline); padding-top:26px;
+}
+.reason__label{
+  font-family:var(--util); font-weight:300; font-size:.64rem;
+  letter-spacing:.32em; text-transform:uppercase; color:var(--marigold);
+  margin:0 0 12px;
+}
+.reason__text{
+  font-family:var(--display); font-size:clamp(1.3rem,3.4vw,2.15rem);
+  line-height:1.35; max-width:26ch; margin:0;
+}
+.reason__label,.reason__text{ transition:opacity .5s ease, transform .5s ease; }
+.reason.is-fading .reason__label,
+.reason.is-fading .reason__text{ opacity:0; transform:translateY(8px); }
+
+/* ============================================================
+   THE LETTER
+   ============================================================ */
+.letter{
+  position:relative;
+  background:linear-gradient(178deg,#F6EFE2 0%, #EFE5D2 100%);
+  color:#2B2418;
+  padding:clamp(34px,6vw,76px);
+  max-width:720px; margin:48px auto 0;
+  transform:rotate(-.55deg);
+  box-shadow:0 30px 90px rgba(0,0,0,.55), 0 2px 0 rgba(255,255,255,.25) inset;
+  background-image:repeating-linear-gradient(180deg, rgba(43,36,24,.045) 0 1px, transparent 1px 34px);
+}
+.letter::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+  background:var(--alta); opacity:.85;
+}
+.letter__salut{
+  font-family:var(--display); font-size:clamp(1.7rem,4.6vw,2.6rem);
+  margin:0 0 26px; color:#3A2A1E;
+}
+.letter p{ margin:0 0 1.15em; font-size:1.06em; color:#3B3327; }
+.letter p:last-of-type{ margin-bottom:0; }
+.letter__sign{
+  font-family:var(--hand); font-size:clamp(3rem,8vw,4.6rem);
+  line-height:1; color:var(--alta); margin:34px 0 0;
+}
+.letter__ps{
+  font-family:var(--util); font-weight:300; font-size:.7rem;
+  letter-spacing:.24em; text-transform:uppercase; color:#7A6A52; margin:14px 0 0;
+}
+
+/* ============================================================
+   ALBUM
+   ============================================================ */
+.album{ display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:clamp(18px,3vw,34px); margin-top:48px; }
+.frame{
+  background:#F6EFE2; padding:13px 13px 54px;
+  box-shadow:0 20px 54px rgba(0,0,0,.5);
+  transition:transform .6s cubic-bezier(.2,.8,.3,1);
+  position:relative;
+}
+.frame:nth-child(odd){ transform:rotate(-1.4deg); }
+.frame:nth-child(even){ transform:rotate(1.1deg); }
+.frame:hover{ transform:rotate(0) translateY(-8px); z-index:2; }
+.frame__slot{ aspect-ratio:4/5; background:#DED2BC; display:grid; place-items:center; overflow:hidden; }
+.frame__slot img{ width:100%; height:100%; object-fit:cover; }
+.frame__hint{
+  font-family:var(--util); font-weight:300; font-size:.62rem;
+  letter-spacing:.16em; text-transform:uppercase; color:#8A7A62; text-align:center; padding:0 14px;
+}
+.frame__cap{
+  position:absolute; left:0; right:0; bottom:16px; text-align:center;
+  font-family:var(--hand); font-size:1.7rem; color:#5A4632; line-height:1;
+}
+
+/* ============================================================
+   FINALE
+   ============================================================ */
+.finale{ text-align:center; padding-block:clamp(110px,20vh,220px); }
+.finale__bn{
+  font-family:var(--bangla); font-size:clamp(3rem,13vw,7.5rem);
+  line-height:1.1; margin:0; color:var(--moon);
+  text-shadow:0 0 60px rgba(244,237,224,.28);
+}
+.finale__en{
+  font-family:var(--util); font-weight:300; font-size:.72rem;
+  letter-spacing:.44em; text-transform:uppercase; color:var(--marigold); margin:22px 0 0;
+}
+.finale__last{ max-width:38ch; margin:36px auto 0; color:var(--prose); }
+
+footer{
+  border-top:1px solid var(--hairline); padding:34px 0 46px; text-align:center;
+  font-family:var(--util); font-weight:300; font-size:.66rem;
+  letter-spacing:.26em; text-transform:uppercase; color:var(--mist);
+}
+
+/* ============================================================
+   MUSIC CONTROL
+   ============================================================ */
+.player{
+  position:fixed; z-index:50; right:clamp(14px,3vw,28px); bottom:clamp(14px,3vw,28px);
+  display:flex; align-items:center; gap:11px;
+  background:rgba(8,12,34,.72); backdrop-filter:blur(12px);
+  border:1px solid var(--hairline); border-radius:100px;
+  padding:10px 18px 10px 14px; cursor:pointer;
+  font-family:var(--util); font-weight:300; font-size:.62rem;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--moon);
+  opacity:0; transform:translateY(14px); pointer-events:none;
+  transition:opacity .7s ease, transform .7s ease, border-color .3s;
+}
+.player.is-shown{ opacity:1; transform:none; pointer-events:auto; }
+.player:hover{ border-color:var(--marigold); }
+.eq{ display:flex; align-items:flex-end; gap:2.5px; height:14px; }
+.eq i{ width:2.5px; background:var(--marigold); height:100%; transform-origin:bottom; animation:eq .9s ease-in-out infinite; }
+.eq i:nth-child(2){ animation-delay:.25s } .eq i:nth-child(3){ animation-delay:.5s } .eq i:nth-child(4){ animation-delay:.12s }
+@keyframes eq{ 0%,100%{ transform:scaleY(.28) } 50%{ transform:scaleY(1) } }
+.player.is-muted .eq i{ animation-play-state:paused; transform:scaleY(.22); background:var(--mist); }
+
+/* the iframe needs real dimensions or mobile browsers throttle it —
+   so give it a proper size and clip the shell down to a pixel */
+#yt-shell{ position:fixed; bottom:0; left:0; width:1px; height:1px; overflow:hidden; opacity:.01; pointer-events:none; z-index:-1; }
+#yt-player{ width:320px; height:180px; }
+
+.player__link{
+  color:var(--marigold); text-decoration:none;
+  border-bottom:1px solid rgba(227,167,92,.4);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:720px){
+  .moon{ top:5vh; right:7vw; }
+  .count{ grid-template-columns:repeat(2,1fr); gap:22px 18px; }
+  .map{ aspect-ratio:1/1; min-height:330px; }
+  .reason{ min-height:158px; }
+  .letter{ transform:none; }
+  .player span.player__label{ display:none; }
+  .player{ padding:12px 15px; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{ animation:none !important; transition-duration:.01ms !important; }
+  .rise{ opacity:1; transform:none; }
+  .map__path{ stroke-dashoffset:0; }
+}
+</style>
+</head>
+<body class="is-locked">
+
+<div class="sky" aria-hidden="true"></div>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="moon" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ══ GATE ══════════════════════════════════════════════ -->
+<div class="gate" id="gate">
+  <div>
+    <div class="gate__crescent" aria-hidden="true"></div>
+    <p class="gate__eyebrow">Written under the moon</p>
+    <h1 class="gate__names">Himel <span class="gate__amp">&amp;</span> Mithila</h1>
+    <p class="gate__bn">হিমেল ও মিথিলা</p>
+    <button class="gate__btn" id="enterBtn">Open the letter</button>
+    <p class="gate__note">Turn your sound on — there's a song waiting</p>
+  </div>
+</div>
+
+<!-- ══ MUSIC CONTROL ═════════════════════════════════════ -->
+<button class="player" id="player" aria-label="Turn the music off">
+  <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+  <span class="player__label" id="playerLabel">Music on</span>
+</button>
+<div id="yt-shell"><div id="yt-player"></div></div>
+
+<main>
+
+  <!-- ══ HERO ═══════════════════════════════════════════ -->
+  <section class="hero wrap">
+    <div class="rise">
+      <p class="hero__eyebrow">For you, and only you</p>
+      <h1 class="hero__name">Mithila<em>from Himel</em></h1>
+      <div class="hero__rule"></div>
+      <p class="hero__line">Some people write letters. I built you a sky. Scroll slowly — <i>ধীরে</i> — every star down there is something I've been meaning to say out loud.</p>
+      <div class="scrollcue"><span></span> Scroll</div>
+    </div>
+  </section>
+
+  <!-- ══ THE COUNT ══════════════════════════════════════ -->
+  <section class="wrap rise">
+    <p class="eyebrow">Time, counted carefully</p>
+    <h2>Every hour since you said yes.</h2>
+    <p class="lede">28 February 2024, one in the afternoon. I'm not good at keeping records — this one keeps itself, and it hasn't stopped since.</p>
+    <div class="count" id="count">
+      <div class="count__cell"><div class="count__num" id="cDays">0</div><div class="count__lab">Days</div></div>
+      <div class="count__cell"><div class="count__num" id="cHours">0</div><div class="count__lab">Hours</div></div>
+      <div class="count__cell"><div class="count__num" id="cMins">0</div><div class="count__lab">Minutes</div></div>
+      <div class="count__cell"><div class="count__num" id="cSecs">0</div><div class="count__lab">Seconds</div></div>
+    </div>
+  </section>
+
+  <!-- ══ CONSTELLATION ══════════════════════════════════ -->
+  <section class="wrap rise">
+    <p class="eyebrow">The constellation</p>
+    <h2>A sky full of reasons.</h2>
+    <p class="lede">Touch a star. Each one is a small, true thing about you — the kind I notice and never manage to say properly.</p>
+
+    <div class="map" id="map">
+      <svg class="map__lines" viewBox="0 0 100 44" preserveAspectRatio="none" aria-hidden="true">
+        <polyline class="map__path" id="mapPath" points=""></polyline>
+      </svg>
+      <!-- stars injected by script -->
+    </div>
+
+    <div class="reason" id="reason" aria-live="polite">
+      <p class="reason__label" id="reasonLabel"></p>
+      <p class="reason__text" id="reasonText"></p>
+    </div>
+  </section>
+
+  <!-- ══ LETTER ═════════════════════════════════════════ -->
+  <section class="wrap rise">
+    <p class="eyebrow">চিঠি · The letter</p>
+    <h2>What I'd say if I were braver.</h2>
+
+    <article class="letter">
+      <p class="letter__salut">Mithila,</p>
+      <p>I have started this a hundred times and thrown away ninety-nine. The problem was never that I had nothing to say — it's that everything true about you sounds too big when I write it down, and too small when I say it out loud.</p>
+      <p>So here is the plain version. Before you, my days were something to get through. Now they're something I look forward to, and the only thing that has changed is that you're in them. You made the ordinary hours worth keeping. You made me want to be a softer, steadier, better person — not because you asked me to, but because you were kind to me first and I didn't want to waste it.</p>
+      <p>I love the small things. The pause before you laugh. The way you defend the people you love. How you argue with me and still reach for my hand halfway through. How you make a room feel like somewhere I'm allowed to rest.</p>
+      <p>I don't know how to promise you the future, so I'll promise you the present instead: I will keep choosing you on the loud days and the quiet ones, on the days you feel like the moon and the days you feel like the rain. You have all of me. You have had it for a while now.</p>
+      <p>Come find me at the end of this page.</p>
+      <p class="letter__sign">Himel</p>
+      <p class="letter__ps">P.S. — The song was always going to be this one.</p>
+    </article>
+  </section>
+
+  <!-- ══ ALBUM ══════════════════════════════════════════ -->
+  <section class="wrap rise">
+    <p class="eyebrow">The album</p>
+    <h2>Us, in four frames.</h2>
+    <p class="lede">Proof that the good days happened, and that there will be more of them.</p>
+
+    <div class="album" id="album"><!-- frames injected by script --></div>
+  </section>
+
+  <!-- ══ FINALE ═════════════════════════════════════════ -->
+  <section class="finale wrap rise">
+    <p class="finale__bn">ভালোবাসি</p>
+    <p class="finale__en">I love you</p>
+    <p class="finale__last">Not for a season. Not until something better comes along. Just — always, and out loud, and in front of everyone.</p>
+  </section>
+
+  <footer>Made by Himel · for Mithila · 🌙</footer>
+</main>
+
+<script>
+/* ============================================================
+   ✦ EDIT EVERYTHING HERE ✦
+   Change these lines and the whole site updates.
+   ============================================================ */
+const CONFIG = {
+
+  // The YouTube song that plays in the background.
+  // Just the ID from the link (youtube.com/watch?v=THIS_PART)
+  videoId: "rOUuGvJkBrQ",
+
+  // MOST RELIABLE OPTION: put an audio file named song.mp3 next to this
+  // file. If it exists, it is used instead of YouTube — no embed
+  // restrictions, works offline, works on iPhones. Set to null to skip.
+  audioFile: "song.mp3",
+
+  volume: 55,          // 0–100
+
+  // Counting from 28 February 2024, 1:00 PM.
+  // (Months start at 0 in JavaScript, so February is 1.)
+  since: new Date(2024, 1, 28, 13, 0, 0),
+
+  // The stars. Add or remove freely — the constellation redraws itself.
+  reasons: [
+    { label:"Your name",    text:"The way you say my name when you're half asleep." },
+    { label:"Your laugh",   text:"You laugh a second before the joke lands, every single time." },
+    { label:"Your Tuesdays",text:"You make ordinary Tuesdays feel worth remembering." },
+    { label:"Your kindness",text:"You are gentle with people who can do nothing for you." },
+    { label:"Your temper",  text:"You argue with me and still hold my hand through it." },
+    { label:"Your quiet",   text:"Sitting beside you in silence is my favourite conversation." },
+    { label:"Your home",    text:"You feel like home — and I haven't been homesick since." }
+  ],
+
+  // Photos: put your images in a folder called "photos" next to this file,
+  // named 1.jpg, 2.jpg, 3.jpg, 4.jpg. Until then, placeholders show.
+  photos: [
+    { src:"photos/1.jpg", caption:"the first one" },
+    { src:"photos/2.jpg", caption:"that evening" },
+    { src:"photos/3.jpg", caption:"you, laughing" },
+    { src:"photos/4.jpg", caption:"us" }
+  ]
+};
+
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ── STARFIELD ───────────────────────────────────────── */
+(function starfield(){
+  const cv = document.getElementById('stars');
+  const ctx = cv.getContext('2d');
+  let stars = [], w, h, dpr;
+
+  function build(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = cv.width = innerWidth * dpr;
+    h = cv.height = innerHeight * dpr;
+    cv.style.width = innerWidth + 'px';
+    cv.style.height = innerHeight + 'px';
+    const n = Math.round((innerWidth * innerHeight) / 7000);
+    stars = Array.from({length:n}, () => ({
+      x: Math.random()*w, y: Math.random()*h,
+      r: (Math.random()*1.15 + .28) * dpr,
+      a: Math.random()*.55 + .18,
+      s: Math.random()*.9 + .25,
+      p: Math.random()*Math.PI*2
+    }));
+  }
+
+  function draw(t){
+    ctx.clearRect(0,0,w,h);
+    for(const st of stars){
+      const tw = reduced ? st.a : st.a + Math.sin(t/1000*st.s + st.p)*.3;
+      ctx.globalAlpha = Math.max(.05, Math.min(1, tw));
+      ctx.fillStyle = '#F4EDE0';
+      ctx.beginPath(); ctx.arc(st.x, st.y, st.r, 0, Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    if(!reduced) requestAnimationFrame(draw);
+  }
+
+  build(); draw(0);
+  addEventListener('resize', () => { build(); if(reduced) draw(0); });
+})();
+
+/* ── SCROLL REVEALS ──────────────────────────────────── */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); } });
+}, { threshold:.18 });
+document.querySelectorAll('.rise, .map').forEach(el => io.observe(el));
+
+/* ── THE COUNT ───────────────────────────────────────── */
+(function counter(){
+  const pad = n => String(n).padStart(2,'0');
+  const els = { d:cDays, h:cHours, m:cMins, s:cSecs };
+  function tick(){
+    let ms = Date.now() - CONFIG.since.getTime();
+    if(ms < 0) ms = 0;
+    const sec = Math.floor(ms/1000);
+    els.d.textContent = Math.floor(sec/86400);
+    els.h.textContent = pad(Math.floor(sec/3600) % 24);
+    els.m.textContent = pad(Math.floor(sec/60) % 60);
+    els.s.textContent = pad(sec % 60);
+  }
+  tick(); setInterval(tick, 1000);
+})();
+
+/* ── CONSTELLATION ───────────────────────────────────── */
+(function constellation(){
+  const map   = document.getElementById('map');
+  const path  = document.getElementById('mapPath');
+  const label = document.getElementById('reasonLabel');
+  const text  = document.getElementById('reasonText');
+  const box   = document.getElementById('reason');
+  const R     = CONFIG.reasons;
+
+  // scatter the stars along a gentle wandering arc (0–100 x, 0–44 y)
+  const pts = R.map((_, i) => {
+    const t = R.length === 1 ? .5 : i / (R.length - 1);
+    const x = 6 + t * 88;
+    const y = 22 - Math.sin(t * Math.PI * 1.9) * 15 + (i % 2 ? 5.5 : -4.5);
+    return { x, y: Math.max(5, Math.min(39, y)) };
+  });
+
+  path.setAttribute('points', pts.map(p => p.x + ',' + p.y).join(' '));
+
+  let active = -1, timer;
+
+  R.forEach((r, i) => {
+    const b = document.createElement('button');
+    b.className = 'star';
+    b.style.left = pts[i].x + '%';
+    b.style.top  = (pts[i].y / 44 * 100) + '%';
+    b.setAttribute('aria-label', r.label + ': ' + r.text);
+    b.addEventListener('click', () => { show(i); rest(); });
+    b.addEventListener('mouseenter', () => { show(i); rest(); });
+    map.appendChild(b);
+  });
+
+  const stars = map.querySelectorAll('.star');
+
+  function show(i){
+    if(i === active) return;
+    active = i;
+    stars.forEach((s, k) => s.classList.toggle('is-active', k === i));
+    box.classList.add('is-fading');
+    setTimeout(() => {
+      label.textContent = R[i].label;
+      text.textContent  = R[i].text;
+      box.classList.remove('is-fading');
+    }, reduced ? 0 : 260);
+  }
+
+  function cycle(){ show((active + 1) % R.length); }
+  function rest(){ if(reduced) return; clearInterval(timer); timer = setInterval(cycle, 4200); }
+
+  show(0);
+  if(!reduced){
+    new IntersectionObserver((e) => {
+      e[0].isIntersecting ? rest() : clearInterval(timer);
+    }, { threshold:.3 }).observe(map);
+  }
+})();
+
+/* ── ALBUM ───────────────────────────────────────────── */
+(function album(){
+  const wrap = document.getElementById('album');
+  CONFIG.photos.forEach((p, i) => {
+    const f = document.createElement('figure');
+    f.className = 'frame';
+    f.innerHTML =
+      '<div class="frame__slot">' +
+        '<img src="' + p.src + '" alt="' + p.caption + '">' +
+        '<span class="frame__hint" hidden>Add photos/' + (i+1) + '.jpg</span>' +
+      '</div>' +
+      '<figcaption class="frame__cap">' + p.caption + '</figcaption>';
+    const img  = f.querySelector('img');
+    const hint = f.querySelector('.frame__hint');
+    img.addEventListener('error', () => { img.remove(); hint.hidden = false; });
+    wrap.appendChild(f);
+  });
+})();
+
+/* ── MUSIC ───────────────────────────────────────────────
+   Two sources, tried in order of reliability:
+     1. a local audio file  (CONFIG.audioFile)  — always works
+     2. the YouTube embed   (CONFIG.videoId)    — only if the channel
+        allows playback on other websites
+   The page checks for the local file first, plays whichever it has,
+   verifies that sound is ACTUALLY coming out, retries once if not,
+   and only then shows a fallback link. Watch the browser console:
+   every step prints a line starting with ♪
+   ──────────────────────────────────────────────────────── */
+const MUSIC = {
+  mode:null,          // 'local' | 'yt'
+  localReady:false,
+  ytReady:false,
+  wantPlay:false,
+  playing:false,
+  failed:false,
+  audio:null,
+  yt:null
+};
+
+const log = (...a) => console.log('♪', ...a);
+
+/* ── source 1: the local file ────────────────────────── */
+async function findLocalFile(){
+  if(!CONFIG.audioFile) return false;
+
+  // A HEAD request is the cleanest check on a real server, and it
+  // avoids iOS Safari's habit of ignoring preload until you tap.
+  try{
+    const r = await fetch(CONFIG.audioFile, { method:'HEAD', cache:'no-store' });
+    return r.ok;
+  }catch(err){
+    // fetch fails when opened as file:// — fall back to loading it
+    return await new Promise(done => {
+      const a = new Audio();
+      a.addEventListener('canplay', () => done(true),  { once:true });
+      a.addEventListener('error',   () => done(false), { once:true });
+      setTimeout(() => done(false), 3500);
+      a.preload = 'auto'; a.src = CONFIG.audioFile; a.load();
+    });
+  }
+}
+
+(async function initLocal(){
+  const found = await findLocalFile();
+  if(!found){
+    log('no "' + CONFIG.audioFile + '" in the folder — trying YouTube instead');
+    if(MUSIC.wantPlay) play();
+    return;
+  }
+  const a = new Audio(CONFIG.audioFile);
+  a.loop = true;
+  a.preload = 'auto';
+  a.volume = 0;
+  a.addEventListener('error', () => {
+    log('the audio file failed to decode — is it a real mp3/m4a?');
+    MUSIC.localReady = false;
+    if(MUSIC.wantPlay) play();
+  });
+  MUSIC.audio = a;
+  MUSIC.localReady = true;
+  log('found "' + CONFIG.audioFile + '" — this will be the source');
+  if(MUSIC.wantPlay) play();
+})();
+
+/* ── source 2: the YouTube embed ─────────────────────── */
+(function loadYT(){
+  const s = document.createElement('script');
+  s.src = 'https://www.youtube.com/iframe_api';
+  s.onerror = () => {
+    log('the YouTube script was blocked — ad-blocker, extension, or network');
+    if(MUSIC.wantPlay && !MUSIC.localReady) giveUp('YouTube was blocked by the browser.');
+  };
+  document.head.appendChild(s);
+})();
+
+function onYouTubeIframeAPIReady(){
+  MUSIC.yt = new YT.Player('yt-player', {
+    videoId: CONFIG.videoId,
+    host: 'https://www.youtube.com',
+    playerVars: {
+      autoplay:0, controls:0, playsinline:1, rel:0, fs:0,
+      loop:1, playlist:CONFIG.videoId, origin: location.origin
+    },
+    events: {
+      onReady: () => {
+        MUSIC.ytReady = true;
+        log('the YouTube player is ready');
+        if(MUSIC.wantPlay && !MUSIC.playing) play();
+      },
+      onStateChange: (e) => {
+        if(e.data === YT.PlayerState.PLAYING && MUSIC.mode === 'yt') MUSIC.playing = true;
+        if(e.data === YT.PlayerState.ENDED){ MUSIC.yt.seekTo(0); MUSIC.yt.playVideo(); }
+      },
+      onError: (e) => {
+        const why =
+          (e.data === 101 || e.data === 150) ? 'This video does not allow playback on other websites.' :
+          (e.data === 100)                   ? 'That video ID does not exist any more.' :
+          (e.data === 5)                     ? 'The browser refused the YouTube player.' :
+                                               'YouTube error ' + e.data + '.';
+        log(why);
+        if(!MUSIC.localReady) giveUp(why);
+      }
+    }
+  });
+}
+
+/* ── play, then check that it actually worked ────────── */
+function play(){
+  MUSIC.wantPlay = true;
+
+  if(MUSIC.localReady){
+    MUSIC.mode = 'local';
+    MUSIC.audio.volume = 0;
+    const p = MUSIC.audio.play();
+    if(p) p.then(() => log('playing the local file')).catch(err => log('blocked:', err.name));
+    fade(v => { MUSIC.audio.volume = v / 100; });
+  }
+  else if(MUSIC.ytReady){
+    MUSIC.mode = 'yt';
+    MUSIC.yt.unMute();
+    MUSIC.yt.setVolume(0);
+    MUSIC.yt.playVideo();
+    fade(v => { try{ MUSIC.yt.setVolume(v); }catch(err){} });
+  }
+  else {
+    log('waiting for a source to become ready…');
+    return;
+  }
+
+  watch();
+}
+
+/* Is sound genuinely coming out? Check twice, retry once, then stop. */
+let watchTries = 0;
+function watch(){
+  clearTimeout(watch.t);
+  watch.t = setTimeout(() => {
+    if(isPlaying()){
+      MUSIC.playing = true;
+      log('confirmed: audio is running (' + MUSIC.mode + ')');
+      return;
+    }
+    watchTries++;
+    if(watchTries === 1){
+      log('nothing came out — retrying once');
+      play();
+    } else if(MUSIC.mode === 'yt' && MUSIC.localReady === false){
+      giveUp('The embed loaded but never actually played.');
+    } else {
+      log('still silent — waiting for another tap');
+      armRetry();
+    }
+  }, 2500);
+}
+
+function isPlaying(){
+  try{
+    if(MUSIC.mode === 'local') return !MUSIC.audio.paused && MUSIC.audio.currentTime > 0;
+    if(MUSIC.mode === 'yt')    return MUSIC.yt.getPlayerState() === YT.PlayerState.PLAYING;
+  }catch(err){}
+  return false;
+}
+
+/* Some browsers only honour the second gesture. Catch the next tap. */
+function armRetry(){
+  const go = () => {
+    if(isPlaying()) return off();
+    play();
+    if(isPlaying()) off();
+  };
+  const off = () => {
+    document.removeEventListener('click', go);
+    document.removeEventListener('touchstart', go);
+    document.removeEventListener('keydown', go);
+  };
+  document.addEventListener('click', go);
+  document.addEventListener('touchstart', go);
+  document.addEventListener('keydown', go);
+}
+
+/* Last resort: hand them a link instead of silence. */
+function giveUp(why){
+  if(MUSIC.failed || MUSIC.playing) return;
+  MUSIC.failed = true;
+  console.warn('♪ ' + why + '  Fix: put an audio file named "' +
+               CONFIG.audioFile + '" next to index.html.');
+  const btn = document.getElementById('player');
+  btn.classList.add('is-shown', 'is-muted');
+  btn.innerHTML = '<a class="player__link" href="https://www.youtube.com/watch?v=' +
+                  CONFIG.videoId + '" target="_blank" rel="noopener">Play the song ↗</a>';
+}
+
+/* Ease the volume up instead of slapping them with it. */
+function fade(set){
+  let v = 0;
+  const t = setInterval(() => {
+    v += 2;
+    if(v >= CONFIG.volume){ v = CONFIG.volume; clearInterval(t); }
+    try{ set(v); }catch(err){ clearInterval(t); }
+  }, 90);
+}
+
+/* Browsers pause audio on some tab switches — resume when they return. */
+document.addEventListener('visibilitychange', () => {
+  if(!document.hidden && MUSIC.wantPlay && !MUSIC.failed && !isPlaying() && !isMuted()) play();
+});
+
+/* ── THE GATE ────────────────────────────────────────── */
+document.getElementById('enterBtn').addEventListener('click', () => {
+  play();                                   // inside the tap — this is the gesture
+  document.getElementById('gate').classList.add('is-open');
+  document.body.classList.remove('is-locked');
+  setTimeout(() => {
+    if(!MUSIC.failed) document.getElementById('player').classList.add('is-shown');
+  }, 1400);
+});
+
+/* ── MUTE TOGGLE ─────────────────────────────────────── */
+function isMuted(){
+  try{
+    if(MUSIC.mode === 'local') return MUSIC.audio.muted;
+    if(MUSIC.mode === 'yt')    return MUSIC.yt.isMuted();
+  }catch(err){}
+  return false;
+}
+
+document.getElementById('player').addEventListener('click', () => {
+  if(MUSIC.failed || !MUSIC.mode) return;
+  const btn  = document.getElementById('player');
+  const muted = isMuted();
+
+  if(MUSIC.mode === 'local'){
+    MUSIC.audio.muted = !muted;
+    if(muted) MUSIC.audio.play().catch(() => {});
+  } else {
+    if(muted){ MUSIC.yt.unMute(); MUSIC.yt.playVideo(); } else { MUSIC.yt.mute(); }
+  }
+
+  btn.classList.toggle('is-muted', !muted);
+  btn.setAttribute('aria-label', muted ? 'Turn the music off' : 'Turn the music on');
+  const lab = document.getElementById('playerLabel');
+  if(lab) lab.textContent = muted ? 'Music on' : 'Music off';
+});
+</script>
+</body>
+</html>
